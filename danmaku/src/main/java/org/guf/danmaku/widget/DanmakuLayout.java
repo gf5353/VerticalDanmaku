@@ -1,5 +1,10 @@
 package org.guf.danmaku.widget;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
@@ -7,6 +12,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.animation.LinearInterpolator;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -71,9 +77,46 @@ public class DanmakuLayout extends LinearLayout implements I_Danmaku {
     }
 
     public void drawView(BaseDanmaku danmaku) {
-        TextView textView = new TextView(getContext());
-        textView.setText(danmaku.text.toString());
-        this.addView(textView);
+        TextView view = new TextView(getContext());
+        view.setText(danmaku.text.toString());
+        this.addView(view);
+        Animator set = getAnimator(view);
+        set.addListener(new AnimEndListener(view));
+        set.start();
+    }
+
+    private Animator getAnimator(View target) {
+        AnimatorSet set = getEnterAnimtor(target);
+        AnimatorSet finalSet = new AnimatorSet();
+        finalSet.playSequentially(set);
+        finalSet.setTarget(target);
+        return finalSet;
+    }
+
+    private AnimatorSet getEnterAnimtor(View target) {
+        ObjectAnimator alpha = ObjectAnimator.ofFloat(target, View.ALPHA, 1f, 0.1f);
+        AnimatorSet enter = new AnimatorSet();
+        enter.setDuration(3*1000);//500
+        enter.setInterpolator(new LinearInterpolator());
+        enter.playTogether(alpha);
+        enter.setTarget(target);
+        return enter;
+    }
+
+    private class AnimEndListener extends AnimatorListenerAdapter {
+        private View target;
+
+        public AnimEndListener(View target) {
+            this.target = target;
+        }
+
+        @Override
+        public void onAnimationEnd(Animator animation) {
+            super.onAnimationEnd(animation);
+            //因为不停的add 导致子view数量只增不减,所以在view动画结束后remove掉
+            removeView((target));
+//            Log.v(TAG, "removeView后子view数:" + getChildCount());
+        }
     }
 
     @Override

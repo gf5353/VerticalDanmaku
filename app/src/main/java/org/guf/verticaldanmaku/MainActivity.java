@@ -9,10 +9,13 @@ import org.guf.danmaku.bean.Danmaku;
 import org.guf.danmaku.widget.DanmakuLayout;
 import org.guf.danmaku.widget.DanmakuView;
 
+import java.util.Random;
+
 public class MainActivity extends AppCompatActivity {
     DanmakuLayout danmakuView;
     int i = 0;
     private Handler handler = new Handler();
+    private Random random = new Random();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +31,8 @@ public class MainActivity extends AppCompatActivity {
                 danmaku.text = "text" + (i++);
                 danmakuView.addDanmaku(danmaku);
 
-                handler.postDelayed(this, 10);
+
+                handler.postDelayed(this, random.nextInt(10) * 100);
             }
         }, 0);
 
