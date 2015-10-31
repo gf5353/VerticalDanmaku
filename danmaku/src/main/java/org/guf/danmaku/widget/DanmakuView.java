@@ -54,10 +54,6 @@ public class DanmakuView extends View implements I_Danmaku {
         invalidate();
     }
 
-    @Override
-    public void addDanmakuBottom(BaseDanmaku danmaku) {
-
-    }
 
     @Override
     public void seekTo(Long ms) {

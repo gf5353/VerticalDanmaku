@@ -3,6 +3,7 @@ package org.guf.verticaldanmaku;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
 import android.view.View;
 
 import org.guf.danmaku.bean.Danmaku;
@@ -40,8 +41,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Danmaku danmaku = new Danmaku();
-                danmaku.text = "text" + (i++);
-                danmakuView.addDanmakuBottom(danmaku);
+                danmaku.text = "小明进来了";
+                danmaku.gravity = Gravity.BOTTOM;
+                danmakuView.addDanmaku(danmaku);
             }
         });
     }

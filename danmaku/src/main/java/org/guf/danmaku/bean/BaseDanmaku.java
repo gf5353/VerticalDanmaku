@@ -1,5 +1,7 @@
 package org.guf.danmaku.bean;
 
+import android.view.Gravity;
+
 /**
  * Created by Guf on 2015/10/31 0031.
  */
@@ -22,4 +24,9 @@ public class BaseDanmaku {
      * 字体大小
      */
     public float textSize = -1;
+
+    /**
+     * 文字方向
+     */
+    public int gravity = Gravity.TOP;
 }

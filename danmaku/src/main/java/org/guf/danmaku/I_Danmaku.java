@@ -9,7 +9,6 @@ public interface I_Danmaku {
 
     void addDanmaku(BaseDanmaku danmaku);
 
-    void addDanmakuBottom(BaseDanmaku danmaku);
 
 
     // ------------- 播放控制 -------------------

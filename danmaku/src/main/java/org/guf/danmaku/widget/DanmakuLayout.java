@@ -61,18 +61,16 @@ public class DanmakuLayout extends LinearLayout implements I_Danmaku {
 //        Log.d(TAG, "onMeasure() called with: " + "widthMeasureSpec = [" + widthMeasureSpec + "], heightMeasureSpec = [" + heightMeasureSpec + "]");
     }
 
-    @Override
-    public void addDanmaku(final BaseDanmaku danmaku) {
-        drawView(danmaku);
-    }
+    int lastGravity = Gravity.TOP;
 
     @Override
-    public void addDanmakuBottom(BaseDanmaku danmaku) {
+    public void addDanmaku(BaseDanmaku danmaku) {
         int childCount = getChildCount();
         Log.d(TAG, "childCount:" + childCount);
-        if (childCount >= 1) {
+        if (lastGravity == Gravity.BOTTOM && childCount > 0)
             this.removeViewAt(childCount - 1);
-        }
+
+        lastGravity = danmaku.gravity;
         drawView(danmaku);
     }
 
@@ -96,7 +94,7 @@ public class DanmakuLayout extends LinearLayout implements I_Danmaku {
     private AnimatorSet getEnterAnimtor(View target) {
         ObjectAnimator alpha = ObjectAnimator.ofFloat(target, View.ALPHA, 1f, 0.1f);
         AnimatorSet enter = new AnimatorSet();
-        enter.setDuration(3*1000);//500
+        enter.setDuration(3 * 1000);//500
         enter.setInterpolator(new LinearInterpolator());
         enter.playTogether(alpha);
         enter.setTarget(target);
