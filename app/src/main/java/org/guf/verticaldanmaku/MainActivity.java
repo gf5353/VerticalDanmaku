@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
                 danmaku.text = "text" + (i++);
                 danmakuView.addDanmaku(danmaku);
 
-                handler.postDelayed(this, 500);
+                handler.postDelayed(this, 10);
             }
         }, 0);
 
@@ -37,13 +37,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Danmaku danmaku = new Danmaku();
                 danmaku.text = "text" + (i++);
-                danmakuView.addDanmaku(danmaku, 0);
+                danmakuView.addDanmakuBottom(danmaku);
             }
         });
     }
 
     @Override
     protected void onDestroy() {
+        danmakuView.release();
         handler.removeCallbacks(null);
         handler = null;
         super.onDestroy();

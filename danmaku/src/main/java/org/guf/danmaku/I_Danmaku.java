@@ -9,5 +9,28 @@ public interface I_Danmaku {
 
     void addDanmaku(BaseDanmaku danmaku);
 
-    void addDanmaku(BaseDanmaku danmaku, int index);
+    void addDanmakuBottom(BaseDanmaku danmaku);
+
+
+    // ------------- 播放控制 -------------------
+
+    public void seekTo(Long ms);
+
+    public void start();
+
+    public void start(long postion);
+
+    public void stop();
+
+    public void pause();
+
+    public void resume();
+
+    public void release();
+
+    public void toggle();
+
+    public void show();
+
+    public void hide();
 }

@@ -57,21 +57,73 @@ public class DanmakuLayout extends LinearLayout implements I_Danmaku {
 
     @Override
     public void addDanmaku(final BaseDanmaku danmaku) {
+        drawView(danmaku);
+    }
+
+    @Override
+    public void addDanmakuBottom(BaseDanmaku danmaku) {
+        int childCount = getChildCount();
+        Log.d(TAG, "childCount:" + childCount);
+        if (childCount >= 1) {
+            this.removeViewAt(childCount - 1);
+        }
+        drawView(danmaku);
+    }
+
+    public void drawView(BaseDanmaku danmaku) {
         TextView textView = new TextView(getContext());
         textView.setText(danmaku.text.toString());
-        addView(textView);
+        this.addView(textView);
+    }
+
+    @Override
+    public void seekTo(Long ms) {
 
     }
 
     @Override
-    public void addDanmaku(BaseDanmaku danmaku, int index) {
-        TextView textView = new TextView(getContext());
-        textView.setText(danmaku.text.toString());
-        int childCount = getChildCount();
-        if (childCount >= 1) {
-            this.removeViewAt(childCount - 1);
-        }
-        this.addView(textView);
+    public void start() {
+
+    }
+
+    @Override
+    public void start(long postion) {
+
+    }
+
+    @Override
+    public void stop() {
+        this.removeAllViews();
+    }
+
+    @Override
+    public void pause() {
+
+    }
+
+    @Override
+    public void resume() {
+
+    }
+
+    @Override
+    public void release() {
+        stop();
+    }
+
+    @Override
+    public void toggle() {
+
+    }
+
+    @Override
+    public void show() {
+
+    }
+
+    @Override
+    public void hide() {
+
     }
 
     @Override
@@ -79,7 +131,7 @@ public class DanmakuLayout extends LinearLayout implements I_Danmaku {
         super.measureChildWithMargins(child, parentWidthMeasureSpec, widthUsed, parentHeightMeasureSpec, heightUsed);
         this.height = getHeight();
         this.heightUsed = heightUsed;
-        Log.d(TAG, "height:" + child.getMeasuredHeight() + "height：" + height + "heightUsed:" + heightUsed);
+//        Log.d(TAG, "height:" + child.getMeasuredHeight() + "height：" + height + "heightUsed:" + heightUsed);
         if (height <= this.heightUsed) {
             removeViewAt(0);
         }

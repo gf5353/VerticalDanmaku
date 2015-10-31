@@ -55,9 +55,60 @@ public class DanmakuView extends View implements I_Danmaku {
     }
 
     @Override
-    public void addDanmaku(BaseDanmaku danmaku, int index) {
+    public void addDanmakuBottom(BaseDanmaku danmaku) {
 
     }
+
+    @Override
+    public void seekTo(Long ms) {
+
+    }
+
+    @Override
+    public void start() {
+
+    }
+
+    @Override
+    public void start(long postion) {
+
+    }
+
+    @Override
+    public void stop() {
+
+    }
+
+    @Override
+    public void pause() {
+
+    }
+
+    @Override
+    public void resume() {
+
+    }
+
+    @Override
+    public void release() {
+
+    }
+
+    @Override
+    public void toggle() {
+
+    }
+
+    @Override
+    public void show() {
+
+    }
+
+    @Override
+    public void hide() {
+
+    }
+
 
     @Override
     protected void onDraw(Canvas canvas) {
