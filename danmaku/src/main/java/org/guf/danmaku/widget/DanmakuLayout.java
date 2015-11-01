@@ -19,14 +19,17 @@ import android.widget.Toast;
 
 import org.guf.danmaku.I_Danmaku;
 import org.guf.danmaku.bean.BaseDanmaku;
+import org.guf.danmaku.core.DrawHandler;
+import org.guf.danmaku.core.IDanmakuViewController;
 
 /**
  * Created by Guf on 2015/10/31 0031.
  */
-public class DanmakuLayout extends LinearLayout implements I_Danmaku {
+public class DanmakuLayout extends LinearLayout implements I_Danmaku, IDanmakuViewController {
     private String TAG = "DanmakuLayout";
     private int heightUsed;//子控件占用的所有高度
     private int height;//父控件的高度
+    private DrawHandler handler;
 
     public DanmakuLayout(Context context) {
         super(context);
@@ -53,6 +56,7 @@ public class DanmakuLayout extends LinearLayout implements I_Danmaku {
     private void init(Context context) {
         setOrientation(LinearLayout.VERTICAL);
         setGravity(Gravity.BOTTOM);
+        handler = new DrawHandler(context, this);
     }
 
     @Override
@@ -69,9 +73,9 @@ public class DanmakuLayout extends LinearLayout implements I_Danmaku {
         Log.d(TAG, "childCount:" + childCount);
         if (lastGravity == Gravity.BOTTOM && childCount > 0)
             this.removeViewAt(childCount - 1);
-
         lastGravity = danmaku.gravity;
-        drawView(danmaku);
+
+        if (handler != null) handler.addItem(danmaku);
     }
 
     public void drawView(BaseDanmaku danmaku) {
@@ -99,6 +103,11 @@ public class DanmakuLayout extends LinearLayout implements I_Danmaku {
         enter.playTogether(alpha);
         enter.setTarget(target);
         return enter;
+    }
+
+    @Override
+    public void drawDanmaku(BaseDanmaku danmaku) {
+        drawView(danmaku);
     }
 
     private class AnimEndListener extends AnimatorListenerAdapter {

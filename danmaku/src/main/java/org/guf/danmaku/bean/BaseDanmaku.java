@@ -29,4 +29,6 @@ public class BaseDanmaku {
      * 文字方向
      */
     public int gravity = Gravity.TOP;
+
+    public int position = 0;
 }
