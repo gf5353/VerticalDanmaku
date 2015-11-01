@@ -12,6 +12,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -19,8 +20,13 @@ import android.widget.Toast;
 
 import org.guf.danmaku.I_Danmaku;
 import org.guf.danmaku.bean.BaseDanmaku;
+import org.guf.danmaku.core.BaseCacheStuffer;
+import org.guf.danmaku.core.DefCacheStuffer;
 import org.guf.danmaku.core.DrawHandler;
 import org.guf.danmaku.core.IDanmakuViewController;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Guf on 2015/10/31 0031.
@@ -30,6 +36,9 @@ public class DanmakuLayout extends LinearLayout implements I_Danmaku, IDanmakuVi
     private int heightUsed;//子控件占用的所有高度
     private int height;//父控件的高度
     private DrawHandler handler;
+
+
+    private BaseCacheStuffer stuffer;
 
     public DanmakuLayout(Context context) {
         super(context);
@@ -57,6 +66,11 @@ public class DanmakuLayout extends LinearLayout implements I_Danmaku, IDanmakuVi
         setOrientation(LinearLayout.VERTICAL);
         setGravity(Gravity.BOTTOM);
         handler = new DrawHandler(context, this);
+        stuffer = new DefCacheStuffer();
+    }
+
+    public void setStuffer(BaseCacheStuffer stuffer) {
+        this.stuffer = stuffer;
     }
 
     @Override
@@ -71,24 +85,17 @@ public class DanmakuLayout extends LinearLayout implements I_Danmaku, IDanmakuVi
     public void addDanmaku(BaseDanmaku danmaku) {
         int childCount = getChildCount();
         Log.d(TAG, "childCount:" + childCount);
-        if (lastGravity == Gravity.BOTTOM && childCount > 0)
-            this.removeViewAt(childCount - 1);
-        lastGravity = danmaku.gravity;
+
+//        if (lastGravity == Gravity.BOTTOM && childCount > 0)
+//            this.removeViewAt(childCount - 1);
 
         if (handler != null) handler.addItem(danmaku);
     }
 
-    public void drawView(BaseDanmaku danmaku) {
-        TextView view = new TextView(getContext());
-        view.setText(danmaku.text.toString());
-        this.addView(view);
-        Animator set = getAnimator(view);
-        set.addListener(new AnimEndListener(view));
-        set.start();
-    }
 
-    private Animator getAnimator(View target) {
+    private Animator getAnimator(View target, long duration) {
         AnimatorSet set = getEnterAnimtor(target);
+        set.setDuration(duration);
         AnimatorSet finalSet = new AnimatorSet();
         finalSet.playSequentially(set);
         finalSet.setTarget(target);
@@ -98,7 +105,6 @@ public class DanmakuLayout extends LinearLayout implements I_Danmaku, IDanmakuVi
     private AnimatorSet getEnterAnimtor(View target) {
         ObjectAnimator alpha = ObjectAnimator.ofFloat(target, View.ALPHA, 1f, 0.1f);
         AnimatorSet enter = new AnimatorSet();
-        enter.setDuration(3 * 1000);//500
         enter.setInterpolator(new LinearInterpolator());
         enter.playTogether(alpha);
         enter.setTarget(target);
@@ -107,7 +113,35 @@ public class DanmakuLayout extends LinearLayout implements I_Danmaku, IDanmakuVi
 
     @Override
     public void drawDanmaku(BaseDanmaku danmaku) {
-        drawView(danmaku);
+        int childCount = getChildCount();
+        View view = null;
+        if (lastGravity == Gravity.BOTTOM && danmaku.gravity == Gravity.BOTTOM) {
+            view = getChildAt(childCount - 1);
+            stuffer.updateBottomDanmaku(view, danmaku);
+            return;
+        } else if (childCount > 1 && lastGravity == Gravity.BOTTOM && danmaku.gravity == Gravity.TOP) {
+            this.removeViewAt(childCount - 1);
+        }
+        if (view == null) {
+            if (danmaku.gravity == Gravity.TOP) {
+                view = stuffer.createDanmaku(getContext(), danmaku);
+            } else if (danmaku.gravity == Gravity.BOTTOM) {
+                view = stuffer.createBottomDanmaku(getContext(), danmaku);
+            }
+            this.addView(view);
+            view.setPadding(danmaku.padding, danmaku.padding, danmaku.padding, danmaku.padding);
+            ViewGroup.MarginLayoutParams params = (MarginLayoutParams) view.getLayoutParams();
+//            if (params != null) {
+            params.setMargins(danmaku.margin, danmaku.margin, danmaku.margin, danmaku.margin);
+            view.setLayoutParams(params);
+//            }
+
+        }
+        view.setTag(danmaku.gravity);
+        lastGravity = danmaku.gravity;
+//        Animator set = getAnimator(view, danmaku.duration);
+//        set.addListener(new AnimEndListener(view));
+//        set.start();
     }
 
     private class AnimEndListener extends AnimatorListenerAdapter {
@@ -123,6 +157,13 @@ public class DanmakuLayout extends LinearLayout implements I_Danmaku, IDanmakuVi
             //因为不停的add 导致子view数量只增不减,所以在view动画结束后remove掉
             removeView((target));
 //            Log.v(TAG, "removeView后子view数:" + getChildCount());
+            int childCount = getChildCount();
+//            for (int i = childCount - 1; i > 1; i--) {
+//                View view = getChildAt(i);
+//                if (view != null && Integer.valueOf(view.getTag().toString()) == Gravity.BOTTOM)
+//                    removeView(view);
+//            }
+
         }
     }
 

@@ -14,7 +14,7 @@ public class BaseDanmaku {
     /**
      * 显示时间(毫秒)
      */
-    public long time;
+    public long duration;
 
     /**
      * 文本颜色
@@ -31,4 +31,7 @@ public class BaseDanmaku {
     public int gravity = Gravity.TOP;
 
     public int position = 0;
+
+    public int padding;
+    public int margin;
 }

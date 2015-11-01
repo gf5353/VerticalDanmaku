@@ -30,8 +30,10 @@ public class MainActivity extends AppCompatActivity {
                 if (handler == null) return;
                 Danmaku danmaku = new Danmaku();
                 danmaku.text = "text" + (i++);
+                danmaku.duration = 10 * 1000;
+                danmaku.padding=2;
+                danmaku.margin = 4;
                 danmakuView.addDanmaku(danmaku);
-
 
                 handler.postDelayed(this, random.nextInt(10) * 100);
             }
@@ -42,7 +44,10 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Danmaku danmaku = new Danmaku();
                 danmaku.text = "小明进来了";
+                danmaku.padding=2;
+                danmaku.margin = 4;
                 danmaku.gravity = Gravity.BOTTOM;
+                danmaku.duration = 10 * 1000;
                 danmakuView.addDanmaku(danmaku);
             }
         });
