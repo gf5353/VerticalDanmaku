@@ -4,11 +4,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
-import android.view.View;
 
 import org.guf.danmaku.bean.Danmaku;
 import org.guf.danmaku.widget.DanmakuLayout;
-import org.guf.danmaku.widget.DanmakuView;
 
 import java.util.Random;
 
@@ -31,26 +29,27 @@ public class MainActivity extends AppCompatActivity {
                 Danmaku danmaku = new Danmaku();
                 danmaku.text = "text" + (i++);
                 danmaku.duration = 10 * 1000;
-                danmaku.padding=2;
+                danmaku.padding = 2;
                 danmaku.margin = 4;
                 danmakuView.addDanmaku(danmaku);
 
-                handler.postDelayed(this, random.nextInt(10) * 100);
+                handler.postDelayed(this, random.nextInt(10) * 800);
             }
         }, 0);
-
-        danmakuView.setOnClickListener(new View.OnClickListener() {
+        handler.postDelayed(new Runnable() {
             @Override
-            public void onClick(View v) {
+            public void run() {
                 Danmaku danmaku = new Danmaku();
-                danmaku.text = "小明进来了";
-                danmaku.padding=2;
+                danmaku.text = "游客进来了" + (i++);
+                danmaku.padding = 2;
                 danmaku.margin = 4;
                 danmaku.gravity = Gravity.BOTTOM;
                 danmaku.duration = 10 * 1000;
                 danmakuView.addDanmaku(danmaku);
+                handler.postDelayed(this, random.nextInt(10) * 500);
             }
-        });
+        }, 1000);
+
     }
 
     @Override
