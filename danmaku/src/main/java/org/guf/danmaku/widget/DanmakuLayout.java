@@ -4,7 +4,6 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
@@ -13,11 +12,8 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import org.guf.danmaku.I_Danmaku;
 import org.guf.danmaku.bean.BaseDanmaku;
@@ -25,9 +21,6 @@ import org.guf.danmaku.core.BaseCacheStuffer;
 import org.guf.danmaku.core.DefCacheStuffer;
 import org.guf.danmaku.core.DrawHandler;
 import org.guf.danmaku.core.IDanmakuViewController;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Guf on 2015/10/31 0031.
@@ -225,7 +218,7 @@ public class DanmakuLayout extends LinearLayout implements I_Danmaku, IDanmakuVi
         this.height = getHeight();
         this.heightUsed = heightUsed;
 //        Log.d(TAG, "height:" + child.getMeasuredHeight() + "height：" + height + "heightUsed:" + heightUsed);
-        if (height <= this.heightUsed) {
+        if (height * 0.9 <= this.heightUsed) {//控制占总高度的90%
             removeViewAt(0);
         }
     }
