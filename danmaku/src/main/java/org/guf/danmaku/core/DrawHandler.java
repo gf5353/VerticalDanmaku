@@ -6,7 +6,6 @@ import android.os.Handler;
 import android.os.Message;
 
 import org.guf.danmaku.bean.BaseDanmaku;
-import org.guf.danmaku.widget.DanmakuLayout;
 
 import java.lang.ref.WeakReference;
 

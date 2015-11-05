@@ -33,5 +33,10 @@ public class BaseDanmaku {
     public int position = 0;
 
     public int padding;
+
     public int margin;
+    /**
+     * 背景颜色
+     */
+    public int fillColor;
 }

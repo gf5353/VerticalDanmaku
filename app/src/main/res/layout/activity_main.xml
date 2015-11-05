@@ -6,7 +6,7 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <org.guf.danmaku.widget.DanmakuLayout
+    <org.guf.danmaku.widget.DanmakuView
         android:id="@+id/danmakuView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

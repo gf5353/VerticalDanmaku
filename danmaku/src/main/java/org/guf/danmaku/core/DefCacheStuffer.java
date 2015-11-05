@@ -17,7 +17,7 @@ public class DefCacheStuffer implements BaseCacheStuffer {
         TextView textView = new TextView(context);
         textView.setText(danmaku.text.toString());
         textView.setTextColor(Color.RED);
-        setBackground(textView);
+        setBackground(textView, danmaku);
         return textView;
     }
 
@@ -26,7 +26,7 @@ public class DefCacheStuffer implements BaseCacheStuffer {
         TextView textView = new TextView(context);
         textView.setText(danmaku.text.toString());
         textView.setTextColor(Color.WHITE);
-        setBackground(textView);
+        setBackground(textView, danmaku);
         return textView;
     }
 
@@ -40,7 +40,8 @@ public class DefCacheStuffer implements BaseCacheStuffer {
     }
 
     @Override
-    public void setBackground(View view) {
+    public void setBackground(View view, BaseDanmaku danmaku) {
         view.setBackgroundColor(Color.parseColor("#F0000000"));
     }
+
 }

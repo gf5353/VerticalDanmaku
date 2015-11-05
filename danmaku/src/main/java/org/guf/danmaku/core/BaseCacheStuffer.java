@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.View;
 
 import org.guf.danmaku.bean.BaseDanmaku;
-import org.guf.danmaku.bean.Danmaku;
 
 /**
  * Created by Guf on 2015/11/1 0001.
@@ -17,5 +16,5 @@ public interface BaseCacheStuffer {
 
     void updateBottomDanmaku(View view, BaseDanmaku danmaku);
 
-    void setBackground(View view);
+    void setBackground(View view, BaseDanmaku danmaku);
 }
