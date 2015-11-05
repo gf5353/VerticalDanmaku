@@ -8,4 +8,6 @@ import org.guf.danmaku.bean.BaseDanmaku;
 public interface IDanmakuViewController {
 
     void drawDanmaku(BaseDanmaku danmaku);
+
+    void removeDanmaku(BaseDanmaku danmaku);
 }

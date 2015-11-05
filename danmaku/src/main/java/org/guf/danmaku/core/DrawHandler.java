@@ -8,6 +8,8 @@ import android.os.Message;
 import org.guf.danmaku.bean.BaseDanmaku;
 
 import java.lang.ref.WeakReference;
+import java.util.LinkedList;
+import java.util.Queue;
 
 /**
  * Created by Guf on 2015/10/31 0031.
@@ -17,18 +19,25 @@ public class DrawHandler extends Handler {
     private IDanmakuViewController controller;
 
     public static final int UPDATE = 2;
+    public static final int REMOVE = 3;
+    private static Queue<BaseDanmaku> datas;
 
     public DrawHandler(Context context, IDanmakuViewController controller) {
         this.controller = controller;
         mActivityReference = new WeakReference<Activity>((Activity) context);
+        datas = new LinkedList<>();
+
     }
 
+//    private final Timer timer = new Timer();
+//    private TimerTask task;
 
     public void addItem(BaseDanmaku item) {
         Message msg = Message.obtain();
         msg.what = UPDATE;
         msg.obj = item;
         sendMessage(msg);
+
     }
 
 
@@ -40,11 +49,17 @@ public class DrawHandler extends Handler {
             return;
         switch (msg.what) {
             case UPDATE:
-                if (controller!=null){
+                if (controller != null) {
                     controller.drawDanmaku((BaseDanmaku) msg.obj);
+                }
+                break;
+            case REMOVE:
+                if (controller != null) {
+                    controller.removeDanmaku((BaseDanmaku) msg.obj);
                 }
                 break;
         }
     }
+
 
 }

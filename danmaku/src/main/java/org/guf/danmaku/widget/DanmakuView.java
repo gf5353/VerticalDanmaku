@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import org.guf.danmaku.I_Danmaku;
 import org.guf.danmaku.bean.BaseDanmaku;
@@ -111,11 +112,6 @@ public class DanmakuView extends LinearLayout implements I_Danmaku, IDanmakuView
             if (view != null && stuffer != null) {
                 stuffer.updateBottomDanmaku(view, danmaku);
             }
-//            Animator set = (Animator) view.getTag();
-//            if (set != null) {
-//                set.cancel();
-//                set.start();
-//            }
             return;
         } else if (childCount > 1 && lastGravity == Gravity.BOTTOM && danmaku.gravity == Gravity.TOP) {//防止底部进入房间的item滚动到上方
             this.removeViewAt(childCount - 1);
@@ -133,14 +129,30 @@ public class DanmakuView extends LinearLayout implements I_Danmaku, IDanmakuView
                 params.setMargins(danmaku.margin, danmaku.margin, danmaku.margin, danmaku.margin);
                 view.setLayoutParams(params);
             }
-            if (childCount == 0) {
-                Animator set = getAnimator(view, danmaku.duration);
-                set.addListener(new AnimEndListener(view));
-                set.start();
-                view.setTag(danmaku.text.toString());
-            }
         }
         lastGravity = danmaku.gravity;
+        if (lastGravity != Gravity.BOTTOM) {
+            Animator set = getAnimator(view, danmaku.duration);
+            set.addListener(new AnimEndListener(view));
+            set.start();
+        } else if (danmaku.gravity == Gravity.BOTTOM && getChildCount() == 0) {
+            Animator set = getAnimator(view, danmaku.duration);
+            set.addListener(new AnimEndListener(view));
+            set.start();
+        }
+    }
+
+    @Override
+    public void removeDanmaku(BaseDanmaku danmaku) {
+        View view = this.getChildAt(0);
+        if (view == null || danmaku == null) return;
+
+        Log.d("11111111111111111--", danmaku.text + "");
+
+        Toast.makeText(getContext(), danmaku.text.toString(), Toast.LENGTH_LONG).show();
+//        Animator set = getAnimator(view, danmaku.duration);
+//        set.addListener(new AnimEndListener(view));
+//        set.start();
     }
 
     private class AnimEndListener extends AnimatorListenerAdapter {
@@ -153,7 +165,7 @@ public class DanmakuView extends LinearLayout implements I_Danmaku, IDanmakuView
         @Override
         public void onAnimationEnd(Animator animation) {
             super.onAnimationEnd(animation);
-            Log.d(TAG, "结束：" + target.getTag().toString());
+            if (target == null) return;
             //因为不停的add 导致子view数量只增不减,所以在view动画结束后remove掉
             removeView((target));
         }
