@@ -9,5 +9,4 @@ public interface IDanmakuViewController {
 
     void drawDanmaku(BaseDanmaku danmaku);
 
-    void removeDanmaku(BaseDanmaku danmaku);
 }

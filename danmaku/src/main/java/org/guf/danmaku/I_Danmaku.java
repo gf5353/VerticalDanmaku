@@ -10,6 +10,11 @@ public interface I_Danmaku {
 
     void addDanmaku(BaseDanmaku danmaku);
 
+    /***
+     * 没数据的时候去手动清除最后一条
+     */
+    void cleanBottom();
+
 
     void setCacheStuffer(BaseCacheStuffer stuffer);
     // ------------- 播放控制 -------------------

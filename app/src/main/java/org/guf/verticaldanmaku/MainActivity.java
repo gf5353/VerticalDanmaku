@@ -31,25 +31,42 @@ public class MainActivity extends AppCompatActivity {
         danmakuView = (DanmakuView) findViewById(R.id.danmakuView);
         danmakuView.setCacheStuffer(stuffer);
 
+//        handler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                if (handler == null) return;
+//                Danmaku danmaku = new Danmaku();
+//                danmaku.text = "text" + (i++);
+//                danmaku.duration = 10 * 1000;
+//                danmaku.textColor = Color.WHITE;
+//                danmaku.fillColor = Color.rgb(176, 73, 255);
+//                danmaku.padding = 3;
+//                danmaku.margin = 4;
+//                danmakuView.addDanmaku(danmaku);
+//
+//                handler.postDelayed(this, random.nextInt(10) * 800);
+//            }
+//        }, 0);
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (handler == null) return;
-                Danmaku danmaku = new Danmaku();
-                danmaku.text = "text" + (i++);
-                danmaku.duration = 10 * 1000;
-                danmaku.textColor = Color.WHITE;
-                danmaku.fillColor = Color.rgb(176, 73, 255);
-                danmaku.padding = 3;
-                danmaku.margin = 4;
-                danmakuView.addDanmaku(danmaku);
-
-                handler.postDelayed(this, random.nextInt(10) * 800);
+//                Danmaku danmaku = new Danmaku();
+//                danmaku.text = "游客进来了" + (i++);
+//                danmaku.padding = 3;
+//                danmaku.textColor = Color.WHITE;
+//                danmaku.margin = 4;
+//                danmaku.fillColor = Color.rgb(255, 102, 2);
+//                danmaku.gravity = Gravity.BOTTOM;
+//                danmaku.duration = 10 * 1000;
+//                danmakuView.addDanmaku(danmaku);
+//
+                danmakuView.cleanBottom();
+                handler.postDelayed(this, random.nextInt(20) * 500);
             }
-        }, 0);
-        handler.postDelayed(new Runnable() {
+        }, 1000);
+        danmakuView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void run() {
+            public void onClick(View v) {
                 Danmaku danmaku = new Danmaku();
                 danmaku.text = "游客进来了" + (i++);
                 danmaku.padding = 3;
@@ -59,9 +76,8 @@ public class MainActivity extends AppCompatActivity {
                 danmaku.gravity = Gravity.BOTTOM;
                 danmaku.duration = 10 * 1000;
                 danmakuView.addDanmaku(danmaku);
-                handler.postDelayed(this, random.nextInt(10) * 500);
             }
-        }, 1000);
+        });
     }
 
     public BaseCacheStuffer stuffer = new BaseCacheStuffer() {
